@@ -1,0 +1,31 @@
+﻿{
+  "name": "dsh-wakamo-pet",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kosaka Wakamo (swimsuit) companion with voice lines and headpats for the Harness Web UI",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.png"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "assets/*.webp",
+    "assets/voices/*.ogg",
+    "locale/*.json",
+    "icon.png",
+    "ASSET_NOTICE.md"
+  ],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}
+
