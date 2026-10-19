@@ -101,6 +101,11 @@ dsh plugin --profile web add "C:\path\to\dsh-wakamo-pet"
 
 ## 构建
 
+### 换角色 / 换素材
+
+给另一个 AI 的完整替换指南见 [docs/AI_ASSET_SWAP.md](docs/AI_ASSET_SWAP.md)：包含同系列 `CHxxxx_spr` 的选帧、导出、眼贴坐标、语音、元数据和验证清单，熟手 5–10 分钟能换一个角色。
+
+
 ```powershell
 python src/build_assets.py
 ```
