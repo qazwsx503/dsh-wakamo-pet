@@ -112,6 +112,7 @@ window.__ModuleLoader__.load({
         pointer-events: none;
         user-select: none;
         -webkit-user-select: none;
+        will-change: transform;
         color: var(--dsw-alias-label-primary);
       }
       .tp-root[data-anchored="true"] { right: 28px; bottom: 8px; }
@@ -206,7 +207,7 @@ window.__ModuleLoader__.load({
         -webkit-user-drag: none;
         user-select: none;
         opacity: 0;
-        transition: opacity .3s ease;
+        transition: none;
       }
       .tp-image[data-active="true"][data-ready="true"] { opacity: 1; }
       .tp-eye-blink {
@@ -386,6 +387,42 @@ window.__ModuleLoader__.load({
         .tp-root[data-petting="true"] .tp-image { animation: none !important; }
       }    `
 
+    // Pricing rule checked 2026-10-19 against the official DeepSeek pricing page.
+    function deepSeekPeriod(timestamp) {
+      const date = new Date(timestamp + 8 * 60 * 60 * 1000)
+      const year = date.getUTCFullYear()
+      if (year !== 2026) return 'unknown'
+      const day = date.getUTCDay()
+      const md = (date.getUTCMonth() + 1) * 100 + date.getUTCDate()
+      const holiday = [
+        [101, 103], [215, 223], [404, 406], [501, 505],
+        [619, 621], [925, 927], [1001, 1007],
+      ].some(([start, end]) => md >= start && md <= end)
+      const minute = date.getUTCHours() * 60 + date.getUTCMinutes()
+      return !holiday && day >= 1 && day <= 5 &&
+        ((minute >= 540 && minute < 720) || (minute >= 840 && minute < 1080))
+        ? 'peak' : 'off-peak'
+    }
+
+    function deepSeekPeriodMessage(timestamp) {
+      const format = (value) => new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+      }).format(new Date(value))
+      const period = deepSeekPeriod(timestamp)
+      const time = `北京时间 ${format(timestamp)}。`
+      if (period === 'unknown') {
+        return `${time}当前年份节假日表未更新，暂不能准确判断高峰/空闲时段，请核对 DeepSeek 官方价格页。`
+      }
+      let next = Math.floor(timestamp / 60000) * 60000 + 60000
+      const limit = next + 8 * 24 * 60 * 60000
+      while (next < limit && deepSeekPeriod(next) === period) next += 60000
+      const change = next < limit && deepSeekPeriod(next) !== 'unknown'
+        ? `下次${period === 'peak' ? '转为空闲' : '进入高峰'}：${format(next)}。`
+        : '后续时段需核对新年度节假日表。'
+      return `${time}DeepSeek 现在是${period === 'peak' ? '高峰时段' : '空闲时段'}。${change}空闲时段价格为高峰的一半。按官方页面 2026-10-19 规则计算。`
+    }
+
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max)
     }
@@ -470,7 +507,6 @@ window.__ModuleLoader__.load({
       const [handFrame, setHandFrame] = React.useState(0)
       const [blinking, setBlinking] = React.useState(false)
       const [springing, setSpringing] = React.useState(false)
-      const [springPull, setSpringPull] = React.useState(0)
       const [jumping, setJumping] = React.useState(false)
       const [falling, setFalling] = React.useState(false)
       const [sound, setSound] = React.useState(readSound)
@@ -689,13 +725,14 @@ window.__ModuleLoader__.load({
         if (rootRef.current && typeof rootRef.current.getAnimations === 'function') {
           rootRef.current.getAnimations().forEach((animation) => animation.cancel())
         }
-        springRef.current = { pointerId: event.pointerId, startY: drag.y, pull: 0 }
+        springRef.current = { pointerId: event.pointerId, startY: drag.y, pull: 0, raf: 0 }
         setSpringing(true)
-        setSpringPull(0)
+        if (stack) stack.style.transform = 'scale(1, 1) translateY(0px)'
       }
 
       function releaseSpring() {
         const spring = springRef.current
+        if (spring && spring.raf) cancelAnimationFrame(spring.raf)
         springRef.current = null
         const pull = spring ? spring.pull : 0
         clearTimer('springEnd')
@@ -748,15 +785,15 @@ window.__ModuleLoader__.load({
           playBoing()
           schedule('springEnd', () => {
             setSpringing(false)
-            setSpringPull(0)
             setJumping(false)
             jumpingRef.current = false
             if (stack) stack.getAnimations().forEach((animation) => animation.cancel())
+            if (stack) stack.style.transform = ''
             if (root) root.getAnimations().forEach((animation) => animation.cancel())
           }, 1220)
         } else {
           setSpringing(false)
-          setSpringPull(0)
+          if (stack) stack.style.transform = ''
           setJumping(false)
           jumpingRef.current = false
         }
@@ -819,45 +856,50 @@ window.__ModuleLoader__.load({
         const state = physicsRef.current
         const root = rootRef.current
         if (!state || !root) return
-        const dt = Math.min(Math.max((now - state.last) / 1000, 0.001), 0.032)
+        let remaining = Math.min(Math.max((now - state.last) / 1000, 0), 0.1)
         state.last = now
-        state.vy += 3200 * dt
-        state.x += state.vx * dt
-        state.y += state.vy * dt
-        state.vx *= 0.992
-
-        const width = Math.round(size * ASPECT)
+        const currentSize = sizeRef.current
+        const width = Math.round(currentSize * ASPECT)
         const maxX = Math.max(0, window.innerWidth - width)
-        if (state.x < 0) {
-          state.x = 0
-          state.vx = Math.abs(state.vx) * 0.35
-        }
-        if (state.x > maxX) {
-          state.x = maxX
-          state.vx = -Math.abs(state.vx) * 0.35
-        }
-        if (state.y < 8) {
-          state.y = 8
-          state.vy = Math.abs(state.vy) * 0.3
-        }
+        const floor = Math.max(8, window.innerHeight - currentSize - 8)
+        // Small time-based steps preserve collisions during short rendering stalls.
+        while (remaining > 0) {
+          const dt = Math.min(remaining, 1 / 240)
+          remaining -= dt
+          state.x += state.vx * dt
+          state.y += state.vy * dt + 0.5 * 3200 * dt * dt
+          state.vy += 3200 * dt
+          state.vx *= Math.pow(0.992, dt * 60)
+          if (state.x < 0) {
+            state.x = 0
+            state.vx = Math.abs(state.vx) * 0.35
+          }
+          if (state.x > maxX) {
+            state.x = maxX
+            state.vx = -Math.abs(state.vx) * 0.35
+          }
+          if (state.y < 8) {
+            state.y = 8
+            state.vy = Math.abs(state.vy) * 0.3
+          }
 
-        const floor = Math.max(8, window.innerHeight - size - 8)
-        if (state.y >= floor) {
-          state.y = floor
-          if (state.vy > 180) {
-            state.vy = -state.vy * 0.42
-            state.vx *= 0.85
-            state.bounces += 1
-            if (state.bounces <= 2) {
-              squashLanding()
-              playThud()
-            }
-          } else {
-            state.vy = 0
-            state.vx *= 0.8
-            if (Math.abs(state.vx) < 25 || state.bounces > 3) {
-              settlePhysics(state)
-              return
+          if (state.y >= floor) {
+            state.y = floor
+            if (state.vy > 180) {
+              state.vy = -state.vy * 0.42
+              state.vx *= 0.85
+              state.bounces += 1
+              if (state.bounces <= 2) {
+                squashLanding()
+                playThud()
+              }
+            } else {
+              state.vy = 0
+              state.vx *= Math.pow(0.8, dt * 60)
+              if (Math.abs(state.vx) < 25 || state.bounces > 3) {
+                settlePhysics(state)
+                return
+              }
             }
           }
         }
@@ -1058,7 +1100,15 @@ window.__ModuleLoader__.load({
           if (spring.pointerId !== event.pointerId) return
           const pull = clamp((event.clientY - spring.startY) / (size * 0.42), 0, 1)
           spring.pull = pull
-          setSpringPull(pull)
+          if (!spring.raf) {
+            spring.raf = requestAnimationFrame(() => {
+              spring.raf = 0
+              if (springRef.current !== spring || !stackRef.current) return
+              const value = spring.pull
+              stackRef.current.style.transform =
+                `scale(${1 + value * 0.12}, ${1 - value * 0.38}) translateY(${value * 8}px)`
+            })
+          }
           return
         }
         if (pettingRef.current) return
@@ -1129,32 +1179,36 @@ window.__ModuleLoader__.load({
         }
       }
 
+      function onContextMenu(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        setBubble(deepSeekPeriodMessage(Date.now()))
+        schedule('bubble', () => setBubble(null), 16000)
+      }
+
       React.useEffect(() => {
         let alive = true
-        function preload(name, done) {
-          const image = new Image()
-          image.onload = () => {
-            if (alive && done) done()
+        const frames = Array.from(stackRef.current.querySelectorAll('.tp-image'))
+        // Decode the mounted layers before allowing expression changes to become visible.
+        Promise.all(frames.map(async (image) => {
+          try {
+            await image.decode()
+          } catch {
+            console.error('[tachibana-pet] could not decode frame', image.src.slice(0, 32))
+            image.src = ASSETS.idle
+            await image.decode()
           }
-          image.onerror = () => {
-            if (alive) console.error('[tachibana-pet] could not load frame', name)
-          }
-          image.src = ASSETS[name]
-          return image
-        }
-        const frames = Object.keys(ASSETS).map((name) =>
-          preload(name, name === 'idle' ? () => setReady(true) : undefined),
-        )
+        })).then(() => {
+          if (alive) setReady(true)
+        }).catch(() => {
+          if (alive) console.error('[tachibana-pet] could not load idle frame')
+        })
         HAND_FRAMES.forEach((src) => {
           const image = new Image()
           image.src = src
         })
         return () => {
           alive = false
-          frames.forEach((image) => {
-            image.onload = null
-            image.onerror = null
-          })
         }
       }, [])
 
@@ -1272,6 +1326,10 @@ window.__ModuleLoader__.load({
             holdRef.current = null
           }
           pettingRef.current = false
+          if (springRef.current && springRef.current.raf) {
+            cancelAnimationFrame(springRef.current.raf)
+          }
+          springRef.current = null
           if (physicsRef.current && physicsRef.current.raf) {
             cancelAnimationFrame(physicsRef.current.raf)
             physicsRef.current = null
@@ -1334,6 +1392,7 @@ window.__ModuleLoader__.load({
               onPointerCancel: (event) => endDrag(event, true),
               onLostPointerCapture: (event) => endDrag(event, true),
               onKeyDown,
+              onContextMenu,
               onDragStart: (event) => event.preventDefault(),
             },
             h(
@@ -1341,12 +1400,6 @@ window.__ModuleLoader__.load({
               {
                 ref: stackRef,
                 className: 'tp-stack',
-                style: springing
-                  ? {
-                      transformOrigin: '50% 100%',
-                      transform: `scale(${1 + springPull * 0.12}, ${1 - springPull * 0.38}) translateY(${springPull * 8}px)`,
-                    }
-                  : undefined,
               },
               Object.keys(ASSETS).map((name) =>
                 h('img', {
