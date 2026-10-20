@@ -1,6 +1,6 @@
 ﻿{
   "name": "dsh-wakamo-pet",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "Kosaka Wakamo (swimsuit) companion with voice lines and headpats for the Harness Web UI",
