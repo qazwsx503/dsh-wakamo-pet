@@ -1,0 +1,98 @@
+﻿{
+    "source":  "https://kivo.wiki/data/character/41?mode=voice",
+    "retrieved":  "2026-10-21",
+    "language":  "ja",
+    "notice":  "For personal local use; original asset rights are not granted by this project.",
+    "voices":  [
+                   {
+                       "key":  "summer",
+                       "description":  "CH0175_Lobby_2",
+                       "text":  "只要到了夏天，大家都会变得放松，心情也会变得亢奋……这样的话，不管发生什么，都不会觉得奇怪吧？呵呵……",
+                       "original":  "夏といえば、誰もが開放的になり、心が浮足立つ季節… となれば、どんなことが起きてもおかしくありませんよね？ ふふっ…",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/9MaxTenizUZVxiwoAGqqmGSCtYquVZ6i.ogg",
+                       "sha256":  "C60DE031C463A5E7016D40B728D1059DB710EA98796FCF35870416ACAF43F1A1",
+                       "bytes":  107512
+                   },
+                   {
+                       "key":  "walk",
+                       "description":  "CH0175_Lobby_4",
+                       "text":  "难得想和老师一起出去散步。但天气这么炎热，还是先等到太阳落山吧。",
+                       "original":  "せっかくですし、先生と一緒にお散歩がしたかったのですが… この暑さでは、日が暮れるまで待った方が良さそうですね",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/SfDSFaf1rXdirPm8tNF7fApxk84cvPK3.ogg",
+                       "sha256":  "5CA5D347FB2E148054C9BD39843DADF544ECFDB5FB552AA6C0AD00A831660534",
+                       "bytes":  79610
+                   },
+                   {
+                       "key":  "size",
+                       "description":  "CH0175_Cafe_monolog_2",
+                       "text":  "嗯……好想让老师快点看到我这身打扮……",
+                       "original":  "この姿を、早く先生にお見せしたいのですが…",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/YTEnvzG7HsY03fDRt7VI24TK2I8iTDJx.ogg",
+                       "sha256":  "B2EC9DE6A38D19301A1C9A3BFFCFAA9A21A69DE9F3671698C9E4641BEE54DA71",
+                       "bytes":  34845
+                   },
+                   {
+                       "key":  "headpatLong",
+                       "description":  "CH0175_Relationship_Up_3",
+                       "text":  "老师……老师……！亲·爱·的·老·师·♥老师……若藻我该怎么才能表达这种满溢而出的感情呢？",
+                       "original":  "先生…あなた様…あなた様…！うふふっ、……あ・な・た・さ・ま、…ああ、この溢れる想いは、どうすれば伝わるのでしょう？",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/pZdzuh8uDsGAbGwq7HQ6451SlMfWMFX9.ogg",
+                       "sha256":  "1BA2592AE2570D363177E6DE07A4A0822AACC986B6383F092C04D6C5852CF4B1",
+                       "bytes":  114310
+                   },
+                   {
+                       "key":  "touch",
+                       "description":  "CH0175_Formation_Select",
+                       "text":  "您这样突然触碰我的话……",
+                       "original":  "あら、そんな急に撫でられてしまいますと…。",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/3hWzhsZHvLGEHxzjfkpsjdf7454ITsSy.ogg",
+                       "sha256":  "B3B9C057644F1794EAC7A5EEF384BE7E93F8204DDB2F6189B7429E3167E0BA27",
+                       "bytes":  33783
+                   },
+                   {
+                       "key":  "move",
+                       "description":  "CH0175_Battle_TacticalAction_1",
+                       "text":  "换个地方吧。",
+                       "original":  "場所を変えましょうか。",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/PMGTihNzYQif6VaesVScETcw0qO035cO.ogg",
+                       "sha256":  "ACB8A0907F864D8B577F98654BC1BCB6A6E88C5AB88FB0E51F835F20913BD0A3",
+                       "bytes":  17168
+                   },
+                   {
+                       "key":  "cool",
+                       "description":  "CH0175_Cafe_monolog_1",
+                       "text":  "这里很凉爽呢，呵呵♥",
+                       "original":  "ここは涼しいですね、うふふ…♥",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/sWSXzZE1eY2XjyJikqTkuGN7xQJW67fY.ogg",
+                       "sha256":  "68F20E88E2A99C2E5BE4BDA7672FC61A8BE4BF624998B54CF0ECAD85E02DD7BA",
+                       "bytes":  26098
+                   },
+                   {
+                       "key":  "thanks",
+                       "description":  "CH0175_Battle_Recovery_1",
+                       "text":  "呵呵，非常感谢。",
+                       "original":  "うふっ、ありがとうございます。",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/lQg0nnDXasN4R3XtQHYSdzalnN5Gvo1u.ogg",
+                       "sha256":  "D3300F0A53F34CCD3FBE9D67FCC3D0BDD90974E3CEB5BB08FB9AD9F3D1DBB217",
+                       "bytes":  23328
+                   },
+                   {
+                       "key":  "beside",
+                       "description":  "CH0175_Relationship_Up_1",
+                       "text":  "好啦，请继续陪在我身边吧。我就在这里，哪儿也不去。",
+                       "original":  "さあ、もっと私のそばで……私は、どこにも行きませんので…。",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/Ax23f6dKRhEMOk3LQdjubrdMZ2LASo6N.ogg",
+                       "sha256":  "606A9DB2638A49D5C4DEE0DED0AA59B2AD5CC4DC3B7E9F55685AEC113BC8560A",
+                       "bytes":  54084
+                   },
+                   {
+                       "key":  "close",
+                       "description":  "CH0175_Lobby_3_1",
+                       "text":  "老师，我能再多靠近您一点吗？……嗯？靠多近都没关系吗？啊，啊啊……？！",
+                       "original":  "あなた様、もっとおそばに寄ってもよろしいでしょうか…？…え、いくらでも？ えっ、ええ…っ！？",
+                       "url":  "https://static.kivo.wiki/voices/students/%E7%8B%90%E5%9D%82%20%E8%8B%A5%E8%97%BB/%E6%B3%B3%E8%A3%85/c6if4i9EWJwUg9to81Qtn1ZwSfadT8eM.ogg",
+                       "sha256":  "B0E313E5BDFEC3CB4D0E986F067466441CC414DF40C48844C72DD1F002B7E976",
+                       "bytes":  78226
+                   }
+               ]
+}

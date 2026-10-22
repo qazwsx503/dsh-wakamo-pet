@@ -1,4 +1,5 @@
 node_modules/
+file-tools.local.json
 outputs/
 *.log
 .DS_Store

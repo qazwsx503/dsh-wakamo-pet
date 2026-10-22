@@ -24,18 +24,28 @@ window.__ModuleLoader__.load({
       { key: 'line.satisfied', face: 's2_13', voice: 'satisfied' },
       { key: 'line.watching', face: 's2_13', voice: 'watching' },
       { key: 'line.victory', face: 's2_13', voice: 'victory' },
+      { key: 'line.close', face: 's2_12', voice: 'close' },
+      { key: 'line.beside', face: 's2_01', voice: 'beside' },
     ]
     const ANNOYED = { key: 'line.end', face: 's2_09', voice: 'end' }
     const GREETING = { key: 'line.login', face: 's2_01', voice: 'login' }
     const FIRST_GREETING = { key: 'line.intro', face: 's2_01' }
-    const SIZE_LINE = { key: 'line.size', face: 's2_12' }
+    const SIZE_LINE = { key: 'line.size', face: 's2_12', voice: 'size' }
     const HEADPAT = { key: 'line.headpat', face: 's2_12', voice: 'headpat' }
-    const HEADPAT_LONG = { key: 'line.headpatLong', face: 's2_13' }
+    const HEADPAT_LONG = { key: 'line.headpatLong', face: 's2_13', voice: 'headpatLong' }
+    const HEADPAT_LINES = [
+      HEADPAT,
+      { key: 'line.touch', face: 's2_12', voice: 'touch' },
+      { key: 'line.thanks', face: 's2_13', voice: 'thanks' },
+    ]
+    const MOVE_LINE = { key: 'line.move', face: 's2_01', voice: 'move' }
     const IDLE_LINES = [
-      { key: 'line.summer', face: 's2_01' },
-      { key: 'line.walk', face: 's2_01' },
+      { key: 'line.summer', face: 's2_01', voice: 'summer' },
+      { key: 'line.walk', face: 's2_01', voice: 'walk' },
       { key: 'line.prepared', face: 's2_12', voice: 'prepared' },
       { key: 'line.dontLeave', face: 's2_12', voice: 'dontLeave' },
+      { key: 'line.cool', face: 's2_01', voice: 'cool' },
+      { key: 'line.beside', face: 's2_13', voice: 'beside' },
     ]
 
     const EN = {
@@ -63,10 +73,15 @@ window.__ModuleLoader__.load({
       'line.watching':
         'I feel like someone is watching me... Could it be you, Sensei...? Fufufu ♥',
       'line.victory': 'What a delightful victory, fufu ♥',
-      'line.size':
-        "Fufufu... Do not miss a single moment of Wakamo's figure. Your Excellency. ♥",
+      'line.size': 'I want Sensei to see me in this outfit soon...',
       'line.headpat': 'Fufu... so warm...',
-      'line.headpatLong': 'Sensei... Sensei...! My dearest Sensei. ♥',
+      'line.headpatLong': 'Sensei... Sensei...! My dearest Sensei! How can I express these overflowing feelings?',
+      'line.touch': 'When you touch me so suddenly...',
+      'line.move': 'Shall we move somewhere else?',
+      'line.cool': 'It is cool here... fufu.',
+      'line.thanks': 'Fufu, thank you very much.',
+      'line.beside': 'Please stay by my side. I am right here, and I am not going anywhere.',
+      'line.close': 'Sensei, may I come a little closer? ...As close as I like? Ah...!',
       'line.summer':
         'Once summer arrives, everyone becomes relaxed and their hearts flutter... In that case, it would not be strange if anything happened, would it? Fufu...',
       'line.walk':
@@ -96,9 +111,15 @@ window.__ModuleLoader__.load({
       'line.end': '差不多该结束了吧。',
       'line.watching': '总感觉有人看着我……难道是老师……？呵呵呵♥',
       'line.victory': '真是让人愉快的胜利呀，呵呵♥',
-      'line.size': '哼哼哼……若藻的这副身姿，请勿错过任何一瞬。阁.下♡',
+      'line.size': '嗯……好想让老师快点看到我这身打扮……',
       'line.headpat': '呵呵，好暖和啊……',
-      'line.headpatLong': '老师……老师……！亲·爱·的·老·师·♥',
+      'line.headpatLong': '老师……老师……！亲·爱·的·老·师·♥老师……若藻我该怎么才能表达这种满溢而出的感情呢？',
+      'line.touch': '您这样突然触碰我的话……',
+      'line.move': '换个地方吧。',
+      'line.cool': '这里很凉爽呢，呵呵♥',
+      'line.thanks': '呵呵，非常感谢。',
+      'line.beside': '好啦，请继续陪在我身边吧。我就在这里，哪儿也不去。',
+      'line.close': '老师，我能再多靠近您一点吗？……嗯？靠多近都没关系吗？啊，啊啊……？！',
       'line.summer':
         '只要到了夏天，大家都会变得放松，心情也会变得亢奋……这样的话，不管发生什么，都不会觉得奇怪吧？呵呵……',
       'line.walk':
@@ -341,16 +362,20 @@ window.__ModuleLoader__.load({
         position: absolute;
         left: 50%;
         bottom: calc(100% + 8px);
-        max-width: min(240px, 76vw);
-        padding: 8px 13px;
-        border-radius: 14px;
-        background: var(--dsw-alias-bg-overlay);
-        border: 1px solid var(--dsw-alias-border-l1);
+        width: max-content;
+        max-width: min(280px, 76vw);
+        box-sizing: border-box;
+        padding: 12px 16px;
+        border-radius: 8px;
+        background: var(--dsw-alias-bg-overlay, #fff);
+        border: 1px solid var(--dsw-alias-border-l1, #e3dce1);
+        border-top: 2px solid #cb8da7;
         color: var(--dsw-alias-label-primary);
         font-size: 13px;
         line-height: 1.5;
         text-align: center;
-        box-shadow: 0 12px 30px rgba(18,10,38,.18);
+        box-shadow: 0 6px 20px rgba(35,24,34,.12);
+        overflow-wrap: anywhere;
         pointer-events: none;
         transform: translateX(-50%);
         animation: tp-bubble .22s cubic-bezier(.2,.8,.2,1) both;
@@ -364,10 +389,26 @@ window.__ModuleLoader__.load({
         height: 8px;
         margin-left: -4px;
         transform: rotate(45deg);
-        background: var(--dsw-alias-bg-overlay);
+        background: var(--dsw-alias-bg-overlay, #fff);
         border-right: 1px solid var(--dsw-alias-border-l1);
         border-bottom: 1px solid var(--dsw-alias-border-l1);
       }
+      .tp-bubble.tp-pricing { width:280px; padding:14px 16px 12px; text-align:left; }
+      .tp-pricing-head { display:flex; align-items:center; justify-content:space-between; gap:10px;
+        font-size:11px; color:var(--dsw-alias-label-secondary,#6b656d); }
+      .tp-pricing-brand { font-weight:600; color:var(--dsw-alias-label-primary,#262229); }
+      .tp-pricing-clock { margin:10px 0 8px; font-size:24px; line-height:1.2; font-weight:600;
+        font-variant-numeric:tabular-nums; letter-spacing:0; }
+      .tp-pricing-clock small { margin-left:8px; font-size:11px; font-weight:400;
+        color:var(--dsw-alias-label-secondary,#6b656d); }
+      .tp-pricing-state { display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; }
+      .tp-pricing-dot { width:7px; height:7px; border-radius:50%; background:#399b83; flex:none; }
+      .tp-pricing[data-period="peak"] .tp-pricing-dot { background:#d69238; }
+      .tp-pricing[data-period="unknown"] .tp-pricing-dot { background:#8d8791; }
+      .tp-pricing-next { margin-top:10px; padding-top:9px; border-top:1px solid var(--dsw-alias-border-l1,#e7e1e5);
+        font-size:12px; font-weight:400; line-height:1.65; }
+      .tp-pricing-note { margin-top:7px; font-size:10px; line-height:1.55;
+        color:var(--dsw-alias-label-secondary,#777078); }
       @keyframes tp-enter {
         from { opacity: 0; transform: translateY(10px) scale(.985); }
         to { opacity: 1; transform: none; }
@@ -421,6 +462,24 @@ window.__ModuleLoader__.load({
         ? `下次${period === 'peak' ? '转为空闲' : '进入高峰'}：${format(next)}。`
         : '后续时段需核对新年度节假日表。'
       return `${time}DeepSeek 现在是${period === 'peak' ? '高峰时段' : '空闲时段'}。${change}空闲时段价格为高峰的一半。按官方页面 2026-10-19 规则计算。`
+    }
+
+    function nextReactionIndex(deck, count, random = Math.random) {
+      if (deck.remaining.length === 0) {
+        deck.remaining = Array.from({ length: count }, (_, index) => index)
+        for (let i = count - 1; i > 0; i -= 1) {
+          const j = Math.floor(random() * (i + 1))
+          ;[deck.remaining[i], deck.remaining[j]] = [deck.remaining[j], deck.remaining[i]]
+        }
+        // Draw from the end; avoid repeating the previous round's final line.
+        if (count > 1 && deck.remaining[count - 1] === deck.last) {
+          const j = Math.floor(random() * (count - 1))
+          ;[deck.remaining[j], deck.remaining[count - 1]] =
+            [deck.remaining[count - 1], deck.remaining[j]]
+        }
+      }
+      deck.last = deck.remaining.pop()
+      return deck.last
     }
 
     function clamp(value, min, max) {
@@ -491,6 +550,86 @@ window.__ModuleLoader__.load({
       return revision
     }
 
+    function PricingBubble({ timestamp }) {
+      const period = deepSeekPeriod(timestamp)
+      const date = new Date(timestamp)
+      const clock = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+      }).format(date)
+      const day = new Intl.DateTimeFormat('zh-CN', {
+        timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit',
+      }).format(date)
+      let next = Math.floor(timestamp / 60000) * 60000 + 60000
+      const limit = next + 8 * 24 * 60 * 60000
+      if (period !== 'unknown') {
+        while (next < limit && deepSeekPeriod(next) === period) next += 60000
+      }
+      const nextText = period !== 'unknown' && next < limit && deepSeekPeriod(next) !== 'unknown'
+        ? `${period === 'peak' ? '转为空闲' : '下次高峰'} · ${new Intl.DateTimeFormat('zh-CN', {
+            timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+          }).format(new Date(next))}`
+        : '节假日表需更新，请核对官方价格页'
+      return h('div', {
+        className: 'tp-bubble tp-pricing', role: 'status', 'data-period': period,
+        'aria-label': deepSeekPeriodMessage(timestamp),
+      },
+        h('div', { className: 'tp-pricing-head' },
+          h('span', { className: 'tp-pricing-brand' }, 'DeepSeek · 用量时段'),
+          h('span', null, day)),
+        h('div', { className: 'tp-pricing-clock' }, clock, h('small', null, '北京时间')),
+        h('div', { className: 'tp-pricing-state' },
+          h('span', { className: 'tp-pricing-dot', 'aria-hidden': true }),
+          period === 'peak' ? '当前为高峰时段' : period === 'off-peak' ? '当前为空闲时段' : '当前时段待核实'),
+        h('div', { className: 'tp-pricing-next' }, nextText),
+        h('div', { className: 'tp-pricing-note' },
+          '空闲价格为高峰的 ½ · 本地规则计算',
+          h('br'), '规则核对于 2026-10-19 · 节假日表：2026'),
+      )
+    }
+
+    // FILE_TOOLS_COMPONENT
+
+    const FrameLayers = React.memo(function FrameLayers({ ready, face }) {
+      return h(React.Fragment, null, Object.keys(ASSETS).map((name) =>
+        h('img', {
+          key: name,
+          className: 'tp-image',
+          src: ASSETS[name],
+          alt: '',
+          draggable: false,
+          'data-ready': ready ? 'true' : 'false',
+          'data-active': name === face ? 'true' : 'false',
+        }),
+      ))
+    })
+
+    function decodeVoice(ctx, cache, key, clip) {
+      if (cache.has(key)) {
+        const pending = cache.get(key)
+        cache.delete(key)
+        cache.set(key, pending)
+        return pending
+      }
+      const pending = Promise.resolve().then(() => {
+        const binary = atob(clip)
+        const bytes = new Uint8Array(binary.length)
+        for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i)
+        return ctx.decodeAudioData(bytes.buffer)
+      }).then((buffer) => {
+        // Keep decoded PCM bounded as well as limiting the number of recent clips.
+        const bytes = buffer.length * buffer.numberOfChannels * 4
+        if (bytes > 8 * 1024 * 1024 && cache.get(key) === pending) cache.delete(key)
+        return buffer
+      }).catch((error) => {
+        if (cache.get(key) === pending) cache.delete(key)
+        throw error
+      })
+      cache.set(key, pending)
+      while (cache.size > 3) cache.delete(cache.keys().next().value)
+      return pending
+    }
+
     function PetView(props) {
       const locale = props.locale
       const t = locale.bind(NS)
@@ -529,9 +668,42 @@ window.__ModuleLoader__.load({
       const audioCtxRef = React.useRef(null)
       const sourceRef = React.useRef(null)
       const voiceTokenRef = React.useRef(0)
+      const voiceCacheRef = React.useRef(new Map())
       const timers = React.useRef({})
       const pokeLog = React.useRef({ count: 0, last: 0 })
-      const lastReaction = React.useRef(-1)
+      const reactionDeck = React.useRef({ remaining: [], last: -1 })
+      const lastMoveVoice = React.useRef(-Infinity)
+      const fileTools = useFileTools(onFileStatus, rootRef)
+
+      function onFileStatus(phase, name) {
+        clearTimer('face')
+        clearTimer('bubble')
+        const faces = { busy: 's2_01', success: 's2_13', done: 's2_13',
+          password: 's2_04', error: 's2_07', cancelled: 'idle' }
+        const messages = {
+          busy: `老师，${name} 交给若藻吧。`,
+          success: '这一份已经处理好了。',
+          done: '老师，文件都处理好了。',
+          password: '老师，这个压缩包需要密码哦。',
+          error: '这次没能全部处理好，老师请看看提示。',
+          cancelled: '已经停下了，老师。源文件没有改动。',
+        }
+        setFace(faces[phase] || 'idle')
+        setBubble(messages[phase])
+        if (phase !== 'busy' && phase !== 'password') {
+          schedule('face', () => setFace('idle'), 4000)
+          schedule('bubble', () => setBubble(null), 6500)
+        }
+        if ((phase === 'done' || phase === 'error') && !dragRef.current &&
+          !physicsRef.current && !jumpingRef.current && !pettingRef.current &&
+          !springRef.current && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          figureRef.current?.animate?.([
+            { transform: 'rotate(0deg)' },
+            { transform: `rotate(${phase === 'done' ? -2 : 2}deg)`, offset: 0.4 },
+            { transform: 'rotate(0deg)' },
+          ], { duration: 500, easing: 'ease-in-out' })
+        }
+      }
 
       faceRef.current = face
       posRef.current = pos
@@ -589,17 +761,14 @@ window.__ModuleLoader__.load({
         const start = () => {
           if (token !== voiceTokenRef.current) return
           try {
-            const binary = atob(clip)
-            const bytes = new Uint8Array(binary.length)
-            for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i)
-            ctx
-              .decodeAudioData(bytes.buffer.slice(0))
+            decodeVoice(ctx, voiceCacheRef.current, key, clip)
               .then((buffer) => {
                 if (token !== voiceTokenRef.current) return
                 const source = ctx.createBufferSource()
                 source.buffer = buffer
                 source.connect(ctx.destination)
                 source.onended = () => {
+                  source.disconnect()
                   if (sourceRef.current === source) {
                     sourceRef.current = null
                     setSpeaking(false)
@@ -670,11 +839,12 @@ window.__ModuleLoader__.load({
         setDragging(false)
         pettingRef.current = true
         setPetting(true)
-        showReaction(HEADPAT, 60000)
+        showReaction(HEADPAT_LINES[Math.floor(Math.random() * HEADPAT_LINES.length)], 60000)
         schedule('patLong', () => {
           if (!pettingRef.current) return
           setFace(HEADPAT_LONG.face)
           setBubble(t(HEADPAT_LONG.key))
+          playVoice(HEADPAT_LONG.voice)
         }, 7000)
       }
 
@@ -946,9 +1116,7 @@ window.__ModuleLoader__.load({
         if (log.count >= 4) {
           reaction = ANNOYED
         } else {
-          let index = Math.floor(Math.random() * REACTIONS.length)
-          if (index === lastReaction.current) index = (index + 1) % REACTIONS.length
-          lastReaction.current = index
+          const index = nextReactionIndex(reactionDeck.current, REACTIONS.length)
           reaction = REACTIONS[index]
         }
 
@@ -1167,6 +1335,11 @@ window.__ModuleLoader__.load({
         setDragging(false)
         if (drag.moved) {
           startPhysics(drag)
+          const now = performance.now()
+          if (!isCancel && !speaking && !sourceRef.current && now - lastMoveVoice.current >= 15000) {
+            lastMoveVoice.current = now
+            showReaction(MOVE_LINE)
+          }
         } else if (!isCancel) {
           poke()
         }
@@ -1182,7 +1355,7 @@ window.__ModuleLoader__.load({
       function onContextMenu(event) {
         event.preventDefault()
         event.stopPropagation()
-        setBubble(deepSeekPeriodMessage(Date.now()))
+        setBubble({ type: 'pricing', timestamp: Date.now() })
         schedule('bubble', () => setBubble(null), 16000)
       }
 
@@ -1339,15 +1512,22 @@ window.__ModuleLoader__.load({
 
       React.useEffect(
         () => () => {
+          voiceTokenRef.current += 1
+          voiceCacheRef.current.clear()
           const source = sourceRef.current
           sourceRef.current = null
-          if (!source) return
-          try {
-            source.stop()
-          } catch {}
-          try {
-            source.disconnect()
-          } catch {}
+          if (source) {
+            source.onended = null
+            try {
+              source.stop()
+            } catch {}
+            try {
+              source.disconnect()
+            } catch {}
+          }
+          const ctx = audioCtxRef.current
+          audioCtxRef.current = null
+          if (ctx && ctx.state !== 'closed') ctx.close().catch(() => {})
         },
         [],
       )
@@ -1372,8 +1552,12 @@ window.__ModuleLoader__.load({
           'data-spring': springing ? 'true' : 'false',
           'data-jumping': jumping ? 'true' : 'false',
           'data-falling': falling ? 'true' : 'false',
+          'data-processing': fileTools.state.phase === 'busy' ? 'true' : 'false',
+          'data-file-hover': fileTools.hover ? 'true' : 'false',
         },
         h('style', null, CSS),
+        h('style', null, FILE_TOOLS_CSS),
+        h(FileToolsPanel, { tools: fileTools }),
         h(
           'div',
           { className: 'tp-stage' },
@@ -1393,6 +1577,9 @@ window.__ModuleLoader__.load({
               onLostPointerCapture: (event) => endDrag(event, true),
               onKeyDown,
               onContextMenu,
+              onDragOver: fileTools.dragOver,
+              onDragLeave: fileTools.dragLeave,
+              onDrop: fileTools.drop,
               onDragStart: (event) => event.preventDefault(),
             },
             h(
@@ -1401,17 +1588,7 @@ window.__ModuleLoader__.load({
                 ref: stackRef,
                 className: 'tp-stack',
               },
-              Object.keys(ASSETS).map((name) =>
-                h('img', {
-                  key: name,
-                  className: 'tp-image',
-                  src: ASSETS[name],
-                  alt: '',
-                  draggable: false,
-                  'data-ready': ready ? 'true' : 'false',
-                  'data-active': name === face ? 'true' : 'false',
-                }),
-              ),
+              h(FrameLayers, { ready, face }),
               h('img', {
                 className: 'tp-eye-blink',
                 src: EYE_PATCH,
@@ -1480,6 +1657,13 @@ window.__ModuleLoader__.load({
               t('name'),
             ),
             h('span', { className: 'tp-size' }, Math.round(size) + 'px'),
+            h('select', {
+              className: 'tp-file-format', 'aria-label': '音频输出格式',
+              title: '拖入音频时使用的格式', value: fileTools.format,
+              onChange: event => fileTools.setFormat(event.target.value),
+              onPointerDown: event => event.stopPropagation(),
+            }, ['mp3', 'wav', 'flac', 'm4a', 'ogg', 'opus'].map(value =>
+              h('option', { key: value, value }, value.toUpperCase()))),
             h(
               'button',
               {
@@ -1531,7 +1715,9 @@ window.__ModuleLoader__.load({
             ),
           ),
           bubble
-            ? h('div', { className: 'tp-bubble', key: bubble, role: 'status' }, bubble)
+            ? bubble.type === 'pricing'
+              ? h(PricingBubble, { key: bubble.timestamp, timestamp: bubble.timestamp })
+              : h('div', { className: 'tp-bubble', key: bubble, role: 'status' }, bubble)
             : null,
         ),
       )

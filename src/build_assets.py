@@ -31,6 +31,16 @@ VOICES = [
     "watching",
     "victory",
     "headpat",
+    "summer",
+    "walk",
+    "size",
+    "headpatLong",
+    "touch",
+    "move",
+    "cool",
+    "thanks",
+    "beside",
+    "close",
 ]
 
 
@@ -46,6 +56,8 @@ def voice_base64(name: str) -> str:
 
 def main() -> None:
     template = (ROOT / "src" / "client.template.js").read_text(encoding="utf-8")
+    file_tools = (ROOT / "src" / "file-tools.client.js").read_text(encoding="utf-8")
+    template = template.replace("    // FILE_TOOLS_COMPONENT", file_tools)
     lines = ["(function () {", "const ASSETS = {"]
     for name in FRAMES:
         lines.append(f'  {name}: "{data_url(name)}",')

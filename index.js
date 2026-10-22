@@ -1,7 +1,11 @@
-/**
- * Host half of the Tachibana pet bundle.
- *
- * The artwork ships inside the Client bundle as data URLs, so this half only
- * owns the bundle row and needs no services.
- */
-export function apply() {}
+import { createFileToolHandler } from './src/file-tools.js'
+
+export const inject = ['webServer', 'connection']
+
+export function apply(ctx) {
+  ctx.effect(() => ctx.webServer.register({
+    kind: 'exact',
+    path: '/wakamo/file-tools',
+    handler: createFileToolHandler(ctx.connection),
+  }), 'wakamo: local file conversion and extraction')
+}
